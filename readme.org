@@ -1,4 +1,4 @@
-#+title: Optimizing Denovo Genome Assembly using Hybrid Quantum-Classical Approach
+#+title: QuantaNovo:  An Hybrid QC path finder for Denovo genome assembly.
 
 
 Based on *QuASeR: Quantum Accelerated De-Novo DNA Sequence Reconstruction* (https://doi.org/10.1371/journal.pone.0249850)
@@ -14,6 +14,8 @@ Like understanding nature, climate, cryptography... and breaking many questions
 * Install
 Suggested and easy way is to utilize =uv= (https://github.com/astral-sh/uv) python package manager.
 Install it via pip or distro package manager or [[https://github.com/astral-sh/uv#installation][refer]] here
+
+The repo is equipped with Nix flake to have reproducible development environment and ensure package tests.
 
 #+begin_src bash
   # cd <dir> # to wherever you prefer
