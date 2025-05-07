@@ -1,0 +1,26 @@
+* Lambda Phage Genome Test Repository
+
+This repository contains test data and instructions for validating bioinformatics tools or pipelines using the *lambda phage genome FASTA file*.
+
+--------
+
+** Contents
+
+- =lambda= — Genome sequence of bacteriophage lambda (in FASTA format)
+
+------
+
+** Purpose
+
+- Testing genome assembly and tracing path to benchmark against reference.
+- Benchmarking tools with a well-characterized reference genome
+  https://github.com/zeqianli/tgv/ can be used to visualize
+
+-------
+
+Edit the python file and run in console to get the output.
+
+** Contributing
+
+Feel free to submit issues or pull requests to improve the test data or add more example workflows.
+
