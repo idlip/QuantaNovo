@@ -1,23 +1,34 @@
-import numpy as np
 import math
-import matplotlib.pyplot as plt
-import networkx as nx
 import sys
 
+import matplotlib.pyplot as plt
+import networkx as nx
+import numpy as np
+
+# for dwave system simulation
 import dimod
 import minorminer
-# import dwave_networkx as dnx
-# from dwave.cloud import Client
 from dwave.embedding import embed_ising, unembed_sampleset
 from dwave.embedding.utils import edgelist_to_adjacency
-# from dwave.system.samplers import DWaveSampler
 from dwave.embedding.chain_breaks import majority_vote
+
+# for qiskit package
+# many modules change alot with version
+from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, transpile
+from qiskit.visualization import plot_histogram, plot_bloch_vector, plot_bloch_multivector
+from qiskit.quantum_info import SparsePauliOp
+# from qiskit_aer import AerSimulator
+
+# Optional imports
+# import dwave_networkx as dnx
+# from dwave.cloud import Client
+# from dwave.system.samplers import DWaveSampler
 
 
 """
 Overlap between pair-wise reads
-"""
-def align(read1, read2, mm):
+
+def align(read1: str, read2: str, mm: int):
     l1, l2 = len(read1), len(read2)
     for shift in range(l1 - l2, l1):
         mmr = 0
