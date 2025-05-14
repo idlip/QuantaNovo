@@ -42,12 +42,67 @@ def align(read1: str, read2: str, mm: int):
         if mmr <= mm:
             return l2 - shift
     return 0
+"""
+
+def calculate_read_overlap(read1: str, read2: str, max_mismatches: int = 1) -> int:
+    """
+    Calculate the overlap length between two sequence reads with allowed mismatches.
+    
+    This function finds the maximum overlap between the end of read1 and the start of read2,
+    allowing for a specified number of mismatches.
+    
+    Args:
+        read1 (str): First sequence read
+        read2 (str): Second sequence read
+        max_mismatches (int): Maximum number of mismatches allowed in the overlap region
+        
+    Returns:
+        int: Length of the overlap between reads. Returns 0 if no valid overlap is found.
+        
+    Examples:
+        >>> calculate_read_overlap("ACTGGT", "TGGTCC", 0)
+        4  # Perfect overlap of 'TGGT'
+        >>> calculate_read_overlap("ACTGGT", "TGGTCC", 1)
+        4  # Overlap allowing 1 mismatch
+    """
+    # Input validation
+    if not isinstance(read1, str) or not isinstance(read2, str):
+        raise TypeError("Reads must be strings")
+    if not read1 or not read2:
+        return 0
+    if max_mismatches < 0:
+        raise ValueError("Maximum mismatches must be non-negative")
+    
+    len1, len2 = len(read1), len(read2)
+    max_overlap = min(len1, len2)
+    
+    # Try different overlap positions
+    for shift in range(max(0, len1 - len2), len1):
+        mismatches = 0
+        read2_pos = 0
+        overlap_valid = True
+        
+        # Check for mismatches in the overlapping region
+        for read1_pos in range(shift, len1):
+            if read1_pos >= len1 or read2_pos >= len2:
+                break
+                
+            if read1[read1_pos] != read2[read2_pos]:
+                mismatches += 1
+                if mismatches > max_mismatches:
+                    overlap_valid = False
+                    break
+            
+            read2_pos += 1
+            
+        if overlap_valid:
+            return len2 - shift
+            
+    return 0
 
 
 """
 Convert set of reads to adjacency matrix of pair-wise overlap for TSP
-"""
-
 
 def reads_to_tspAdjM(reads, max_mismatch=0):
     n_reads = len(reads)
