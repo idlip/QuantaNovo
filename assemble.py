@@ -113,12 +113,36 @@ def reads_to_tspAdjM(reads, max_mismatch=0):
                 O_matrix[r1][r2] = align(reads[r1], reads[r2], max_mismatch)
                 O_matrix = O_matrix / np.linalg.norm(O_matrix)
     return O_matrix
+"""
+
+def reads_to_tsp_adj_matrix(reads: str, max_mismatch: int =0):
+    """
+    Convert a set of reads to an adjacency matrix representing pairwise overlaps for TSP.
+    
+    Args:
+        reads (list of str): List of read strings.
+        max_mismatch (int): Maximum allowed mismatches for overlap.
+    
+    Returns:
+        np.ndarray: Normalized adjacency matrix of overlaps.
+    """
+    n_reads = len(reads)
+    overlap_matrix = np.zeros((n_reads, n_reads))
+    
+    for i in range(n_reads):
+        for j in range(n_reads):
+            if i != j:
+                overlap_matrix[i, j] = align(reads[i], reads[j], max_mismatch)
+    
+    norm = np.linalg.norm(overlap_matrix)
+    if norm > 0:
+        overlap_matrix /= norm
+    
+    return overlap_matrix
 
 
 """
 Convert adjacency matrix of pair-wise overlap for TSP to QUBO matrix of TSP
-"""
-
 
 def tspAdjM_to_quboAdjM(tspAdjM, p0, p1, p2):
     n_reads = len(tspAdjM)
