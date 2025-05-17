@@ -177,6 +177,57 @@ def tspAdjM_to_quboAdjM(tspAdjM, p0, p1, p2):
                 Q_matrix[ci * n_reads + ti][cj * n_reads + tj] += -tspAdjM[ci][cj]
     print(Q_matrix)
     return Q_matrix
+"""
+
+def tspAdjM_to_quboAdjM(tspAdjM, p0, p1, p2):
+    """
+    Convert a TSP adjacency matrix to a QUBO adjacency matrix.
+
+    Args:
+        tspAdjM (np.ndarray): TSP adjacency (distance/overlap) matrix, shape (n, n).
+        p0 (float): Assignment reward (self-bias).
+        p1 (float): Multi-location penalty.
+        p2 (float): Visit repetition penalty.
+
+    Returns:
+        np.ndarray: QUBO adjacency matrix, shape (n^2, n^2).
+    """
+    n = len(tspAdjM)
+    N = n * n
+    Q = np.zeros((N, N), dtype=np.float32)
+
+    # Assignment reward (self-bias)
+    for ct in range(N):
+        Q[ct, ct] += p0
+
+    # Multi-location penalty: Each city assigned to only one position in the tour
+    for c in range(n):
+        for t1 in range(n):
+            for t2 in range(n):
+                if t1 != t2:
+                    i = c * n + t1
+                    j = c * n + t2
+                    Q[i, j] += p1
+
+    # Visit repetition penalty: Each position in the tour assigned to only one city
+    for t in range(n):
+        for c1 in range(n):
+            for c2 in range(n):
+                if c1 != c2:
+                    i = c1 * n + t
+                    j = c2 * n + t
+                    Q[i, j] += p2
+
+    # Path cost: Add TSP adjacency weights for consecutive cities in the tour
+    for ci in range(n):
+        for cj in range(n):
+            for ti in range(n):
+                tj = (ti + 1) % n
+                i = ci * n + ti
+                j = cj * n + tj
+                Q[i, j] += -tspAdjM[ci, cj]
+
+    return Q
 
 
 """
